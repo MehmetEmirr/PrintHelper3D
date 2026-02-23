@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="forge">
+<head>
+<meta charset="UTF-8">
+<title>3D Printer Electricity Cost Calculator – Per Hour & Per Print | PrintCalc</title>
+<meta name="description" content="Calculate exactly how much electricity your 3D printer uses per hour and per print. Includes wattage guide for popular printers and kWh cost formulas.">
+<meta name="keywords" content="3d printer electricity cost, 3d printing power consumption, how much electricity does a 3d printer use, 3d printer kWh calculator">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://printcalc.io/electricity-cost.html">
+<meta property="og:title" content="3D Printer Electricity Cost Calculator | PrintCalc">
+<meta property="og:description" content="Calculate exactly how much electricity your 3D printer uses. Wattage guide + cost formula.">
+<meta property="og:type" content="article">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"3D Printer Electricity Cost Guide","publisher":{"@type":"Organization","name":"PrintCalc","url":"https://printcalc.io"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,300&family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.guide-body { line-height: 1.75; color: var(--text-dim); font-size: 14px; }
+.guide-body h2 { font-family: var(--font-head); font-size: 1.1rem; color: var(--text); margin: 28px 0 10px; font-weight: 800; }
+.guide-body p { margin-bottom: 12px; }
+.formula-box { background: var(--accent-pale); border: 1px solid var(--accent); border-radius: 8px; padding: 14px 18px; font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin: 14px 0; }
+.price-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+.price-table th { background: var(--bg3); color: var(--text-dim); padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; border: 1px solid var(--border); }
+.price-table td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text); }
+.price-table tr:hover td { background: var(--bg2); }
+
+/* Live calc */
+.elec-calc { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+.elec-inputs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+@media (max-width: 600px) { .elec-inputs { grid-template-columns: 1fr; } }
+.elec-inputs label { display: block; font-size: 11px; color: var(--text-dim); margin-bottom: 6px; letter-spacing: 0.05em; text-transform: uppercase; font-family: var(--font-mono); }
+.elec-inputs input { width: 100%; background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: var(--radius); font-family: var(--font-mono); font-size: 14px; }
+.elec-result { background: var(--bg3); border: 1px solid var(--border3); border-radius: var(--radius); padding: 16px 20px; display: flex; gap: 32px; flex-wrap: wrap; }
+.elec-result-item { text-align: center; }
+.elec-result-item .val { font-family: var(--font-mono); font-size: 22px; color: var(--accent); font-weight: 700; }
+.elec-result-item .lbl { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<script src="shared.js"></script>
+<main class="container">
+    <div class="hero"><div class="hero-main">
+        <h1 class="hero-title" id="pageTitle">3D Printer<br><span class="accent">Electricity Cost</span></h1>
+        <p class="hero-sub" id="pageSub">Per hour, per print — exact numbers</p>
+    </div></div>
+
+    <!-- Live Calculator -->
+    <div class="elec-calc">
+        <h2 class="section-label" id="calcTitle">Quick Electricity Calculator</h2>
+        <div class="elec-inputs">
+            <div><label id="lbl-watts">Printer Wattage (W)</label><input type="number" id="ec-watts" value="150" min="0" step="10" oninput="calcElec()"></div>
+            <div><label id="lbl-hours">Print Time (hours)</label><input type="number" id="ec-hours" value="5" min="0" step="0.5" oninput="calcElec()"></div>
+            <div><label id="lbl-rate">Electricity Rate ($/kWh)</label><input type="number" id="ec-rate" value="0.15" min="0" step="0.01" oninput="calcElec()"></div>
+        </div>
+        <div class="elec-result">
+            <div class="elec-result-item"><div class="val" id="ec-kwh">–</div><div class="lbl" id="lbl-kwh">Energy Used (kWh)</div></div>
+            <div class="elec-result-item"><div class="val" id="ec-cost">–</div><div class="lbl" id="lbl-cost-per-print">Cost Per Print</div></div>
+            <div class="elec-result-item"><div class="val" id="ec-hourly">–</div><div class="lbl" id="lbl-cost-per-hour">Cost Per Hour</div></div>
+            <div class="elec-result-item"><div class="val" id="ec-monthly">–</div><div class="lbl" id="lbl-monthly">Cost (30 prints/mo)</div></div>
+        </div>
+    </div>
+
+    <div class="guide-body">
+        <h2 id="h-formula">The Formula</h2>
+        <div class="formula-box" id="formula1">Electricity cost = (Watts &divide; 1000) &times; hours &times; kWh rate</div>
+        <p id="p-formula">Example: A 150W printer running for 5 hours at $0.15/kWh: (150 &divide; 1000) &times; 5 &times; $0.15 = <strong style="color:var(--accent)">$0.11</strong></p>
+
+        <h2 id="h-wattage">Wattage Guide by Printer Type</h2>
+        <table class="price-table">
+            <thead><tr><th id="th-printer">Printer</th><th id="th-watts">Typical Wattage</th><th id="th-cost5h">Cost (5h @ $0.15/kWh)</th><th id="th-note">Notes</th></tr></thead>
+            <tbody>
+                <tr><td>Bambu Lab A1/P1</td><td>~150W</td><td>$0.11</td><td id="td-bambu">Active cooling, efficient</td></tr>
+                <tr><td>Prusa MK4</td><td>~120W</td><td>$0.09</td><td id="td-prusa">Low power draw</td></tr>
+                <tr><td>Creality Ender 3</td><td>~180W peak</td><td>$0.14</td><td id="td-ender">Higher with heated bed</td></tr>
+                <tr><td>Bambu X1C</td><td>~350W</td><td>$0.26</td><td id="td-x1c">Enclosed, multi-material</td></tr>
+                <tr><td>Resin (MSLA)</td><td>~30–80W</td><td>$0.02–0.06</td><td id="td-resin">Very low wattage</td></tr>
+                <tr><td>Large Format (300mm+)</td><td>~400–700W</td><td>$0.30–0.53</td><td id="td-large">High wattage for large beds</td></tr>
+            </tbody>
+        </table>
+
+        <h2 id="h-tips">Tips to Reduce Electricity Costs</h2>
+        <p id="p-tips1">Print at night if your utility offers time-of-use pricing — off-peak rates can be 30–50% lower.</p>
+        <p id="p-tips2">Combine small prints into one plate. Each separate print has startup energy. Batching 4 small parts into one print cuts idle overhead by 75%.</p>
+        <p id="p-tips3">Enclosures help maintain temperature, reducing how hard your heated bed has to work — especially for ABS and ASA.</p>
+        <p id="p-tips4">Enable "sleep mode" or "eco mode" on printers that support it. Some printers idle at full power.</p>
+    </div>
+
+    <div style="margin-top:36px">
+        <a href="index.html" class="calc-btn" style="display:inline-flex;text-decoration:none;max-width:300px;">
+            <span id="btn-calc">Full Cost Calculator</span> <span class="btn-icon">→</span>
+        </a>
+    </div>
+    <nav class="link-nav" style="margin-top:32px">
+        <a href="filament-cost.html" id="nav-filament">Filament Guide</a>
+        <a href="material-compare.html" id="nav-compare">Material Compare</a>
+        <a href="print-pricing-guide.html" id="nav-pricing">Pricing Guide</a>
+    </nav>
+</main>
+
+<script>
+function calcElec() {
+    const w = parseFloat(document.getElementById('ec-watts').value) || 0;
+    const h = parseFloat(document.getElementById('ec-hours').value) || 0;
+    const r = parseFloat(document.getElementById('ec-rate').value) || 0;
+    const kwh = (w / 1000) * h;
+    const cost = kwh * r;
+    const hourly = (w / 1000) * r;
+    const monthly = cost * 30;
+    document.getElementById('ec-kwh').textContent    = kwh.toFixed(3) + ' kWh';
+    document.getElementById('ec-cost').textContent   = '$' + cost.toFixed(3);
+    document.getElementById('ec-hourly').textContent = '$' + hourly.toFixed(4) + '/h';
+    document.getElementById('ec-monthly').textContent= '$' + monthly.toFixed(2);
+}
+
+const EC = {
+    en: { title:'3D Printer<br><span class="accent">Electricity Cost</span>', sub:'Per hour, per print \u2014 exact numbers', calcTitle:'Quick Electricity Calculator', lblWatts:'Printer Wattage (W)', lblHours:'Print Time (hours)', lblRate:'Electricity Rate ($/kWh)', lblKwh:'Energy Used (kWh)', lblCostPrint:'Cost Per Print', lblCostHour:'Cost Per Hour', lblMonthly:'Cost (30 prints/mo)', hFormula:'The Formula', formula1:'Electricity cost = (Watts \u00f7 1000) \u00d7 hours \u00d7 kWh rate', pFormula:'Example: 150W printer, 5 hours, $0.15/kWh: (150 \u00f7 1000) \u00d7 5 \u00d7 $0.15 = <strong style="color:var(--accent)">$0.11</strong>', hWattage:'Wattage Guide by Printer Type', thPrinter:'Printer', thWatts:'Typical Wattage', thCost5h:'Cost (5h @ $0.15/kWh)', thNote:'Notes', tdBambu:'Active cooling, efficient', tdPrusa:'Low power draw', tdEnder:'Higher with heated bed', tdX1c:'Enclosed, multi-material', tdResin:'Very low wattage', tdLarge:'High wattage for large beds', hTips:'Tips to Reduce Electricity Costs', pTips1:'Print at night if your utility offers time-of-use pricing \u2014 off-peak rates can be 30\u201350% lower.', pTips2:'Batch small prints into one plate. Each separate print has startup energy overhead.', pTips3:'Enclosures help maintain temperature, reducing heated bed work \u2014 especially for ABS and ASA.', pTips4:'Enable sleep/eco mode on printers that support it. Some printers idle at full power.', btnCalc:'Full Cost Calculator', navFilament:'Filament Guide', navCompare:'Material Compare', navPricing:'Pricing Guide' },
+    tr: { title:'3D Yaz\u0131c\u0131<br><span class="accent">Elektrik Maliyeti</span>', sub:'Saat ba\u015f\u0131na, bask\u0131 ba\u015f\u0131na \u2014 kesin rakamlar', calcTitle:'H\u0131zl\u0131 Elektrik Hesaplay\u0131c\u0131', lblWatts:'Yaz\u0131c\u0131 G\u00fccu (W)', lblHours:'Bask\u0131 S\u00fcresi (saat)', lblRate:'Elektrik Tarifu (\u20ba/kWh)', lblKwh:'Kullan\u0131lan Enerji (kWh)', lblCostPrint:'Bask\u0131 Ba\u015f\u0131na Maliyet', lblCostHour:'Saat Ba\u015f\u0131na Maliyet', lblMonthly:'Ayl\u0131k (30 bask\u0131)', hFormula:'Form\u00fcl', formula1:'Elektrik maliyeti = (Watt \u00f7 1000) \u00d7 saat \u00d7 kWh tarifu', pFormula:'\u00d6rnek: 150W yaz\u0131c\u0131, 5 saat, \u20ba5/kWh: (150 \u00f7 1000) \u00d7 5 \u00d7 \u20ba5 = <strong style="color:var(--accent)">\u20ba3,75</strong>', hWattage:'Yaz\u0131c\u0131 T\u00fcr\u00fcne G\u00f6re G\u00fc\u00e7 T\u00fcketimi', thPrinter:'Yaz\u0131c\u0131', thWatts:'Tipik G\u00fc\u00e7', thCost5h:'Maliyet (5s @ \u20ba5/kWh)', thNote:'Notlar', tdBambu:'Aktif so\u011futma, verimli', tdPrusa:'D\u00fc\u015f\u00fck g\u00fc\u00e7 t\u00fcketimi', tdEnder:'\u0131s\u0131t\u0131lm\u0131\u015f tabla ile daha y\u00fcksek', tdX1c:'Kapal\u0131 kasa, \u00e7ok malzemeli', tdResin:'\u00c7ok d\u00fc\u015f\u00fck g\u00fc\u00e7', tdLarge:'B\u00fcy\u00fck tablalar i\u00e7in y\u00fcksek g\u00fc\u00e7', hTips:'Elektrik Maliyetini D\u00fc\u015f\u00fcrme \u0130pu\u00e7lar\u0131', pTips1:'Gece tarifi sunuluyorsa gece bask\u0131 yap\u0131n \u2014 gece tarifeleri %30\u201350 daha ucuz olabilir.', pTips2:'K\u00fc\u00e7\u00fck bask\u0131lar\u0131 ayn\u0131 tablaya paketleyin. Her ayr\u0131 bask\u0131n\u0131n ba\u015flang\u0131\u00e7 enerjisi var.', pTips3:'Kapal\u0131 kasalar s\u0131cakl\u0131\u011f\u0131 korur, \u0131s\u0131tmal\u0131 tabla y\u00fcklemesini azalt\u0131r.', pTips4:'Desteklenen yaz\u0131c\u0131larda uyku/eko modunu etkinle\u015ftirin.', btnCalc:'Tam Maliyet Hesaplay\u0131c\u0131', navFilament:'Filament Rehberi', navCompare:'Malzeme K\u0131yasla', navPricing:'Fiyat Rehberi' },
+    de: { title:'3D-Drucker<br><span class="accent">Stromkosten</span>', sub:'Pro Stunde, pro Druck \u2014 genaue Zahlen', calcTitle:'Schnellrechner Stromkosten', lblWatts:'Druckerleistung (W)', lblHours:'Druckzeit (Stunden)', lblRate:'Strompreis (\u20ac/kWh)', lblKwh:'Verbrauch (kWh)', lblCostPrint:'Kosten pro Druck', lblCostHour:'Kosten pro Stunde', lblMonthly:'Monatlich (30 Drucke)', hFormula:'Die Formel', formula1:'Stromkosten = (Watt \u00f7 1000) \u00d7 Stunden \u00d7 kWh-Preis', pFormula:'Beispiel: 150W, 5h, 0,15\u20ac/kWh: (150 \u00f7 1000) \u00d7 5 \u00d7 0,15\u20ac = <strong style="color:var(--accent)">0,11\u20ac</strong>', hWattage:'Leistungsverbrauch nach Drucker', thPrinter:'Drucker', thWatts:'Typische Leistung', thCost5h:'Kosten (5h @ 0,15\u20ac/kWh)', thNote:'Hinweise', tdBambu:'Aktive K\u00fchlung, effizient', tdPrusa:'Geringer Stromverbrauch', tdEnder:'H\u00f6her mit Heizbett', tdX1c:'Geh\u00e4use, Multi-Material', tdResin:'Sehr geringer Verbrauch', tdLarge:'Hoher Verbrauch f\u00fcr gro\u00dfe Druckbetten', hTips:'Stromkosten reduzieren', pTips1:'Nachts drucken falls Nachttarif g\u00fcnstiger \u2014 oft 30\u201350% billiger.', pTips2:'Kleine Drucke auf einer Platte zusammenfassen. Jeder Druck hat Anlaufenergie.', pTips3:'Geh\u00e4use helfen die Temperatur zu halten und entlasten das Heizbett.', pTips4:'Schlaf-/\u00d6ko-Modus aktivieren, wenn der Drucker dies unterst\u00fctzt.', btnCalc:'Vollst\u00e4ndiger Kostenrechner', navFilament:'Filament-Leitfaden', navCompare:'Materialvergleich', navPricing:'Preisgestaltung' },
+    fr: { title:'Imprimante 3D<br><span class="accent">Co\u00fbt \u00c9lectricit\u00e9</span>', sub:'Par heure, par impression \u2014 chiffres exacts', calcTitle:'Calculateur \u00e9lectricit\u00e9 rapide', lblWatts:'Puissance imprimante (W)', lblHours:'Dur\u00e9e impression (heures)', lblRate:'Prix \u00e9lectricit\u00e9 (\u20ac/kWh)', lblKwh:'\u00c9nergie utilis\u00e9e (kWh)', lblCostPrint:'Co\u00fbt par impression', lblCostHour:'Co\u00fbt par heure', lblMonthly:'Co\u00fbt mensuel (30 impressions)', hFormula:'La formule', formula1:'Co\u00fbt \u00e9lectricit\u00e9 = (Watts \u00f7 1000) \u00d7 heures \u00d7 tarif kWh', pFormula:'Exemple : 150W, 5h, 0,15\u20ac/kWh : (150 \u00f7 1000) \u00d7 5 \u00d7 0,15\u20ac = <strong style="color:var(--accent)">0,11\u20ac</strong>', hWattage:'Consommation par type d\u2019imprimante', thPrinter:'Imprimante', thWatts:'Puissance typique', thCost5h:'Co\u00fbt (5h @ 0,15\u20ac/kWh)', thNote:'Notes', tdBambu:'Refroidissement actif, efficace', tdPrusa:'Faible consommation', tdEnder:'Plus \u00e9lev\u00e9 avec plateau chauffant', tdX1c:'Ferm\u00e9, multi-mati\u00e8res', tdResin:'Tr\u00e8s faible consommation', tdLarge:'Haute consommation grands plateaux', hTips:'R\u00e9duire les co\u00fbts d\u2019\u00e9lectricit\u00e9', pTips1:'Imprimer la nuit si votre fournisseur propose des tarifs heures creuses \u2014 30\u201350% moins cher.', pTips2:'Regroupez les petites pi\u00e8ces sur un plateau. Chaque impression a une \u00e9nergie de d\u00e9marrage.', pTips3:'Les enceintes maintiennent la temp\u00e9rature et r\u00e9duisent la charge du plateau chauffant.', pTips4:'Activez le mode veille/\u00e9co si votre imprimante le supporte.', btnCalc:'Calculateur complet', navFilament:'Guide filament', navCompare:'Comparer mat\u00e9riaux', navPricing:'Guide tarification' },
+    es: { title:'Impresora 3D<br><span class="accent">Costo Electricidad</span>', sub:'Por hora, por impresi\u00f3n \u2014 n\u00fameros exactos', calcTitle:'Calculadora de electricidad r\u00e1pida', lblWatts:'Potencia de la impresora (W)', lblHours:'Tiempo de impresi\u00f3n (horas)', lblRate:'Tarifa el\u00e9ctrica ($/kWh)', lblKwh:'Energ\u00eda usada (kWh)', lblCostPrint:'Costo por impresi\u00f3n', lblCostHour:'Costo por hora', lblMonthly:'Costo mensual (30 impresiones)', hFormula:'La f\u00f3rmula', formula1:'Costo electricidad = (Vatios \u00f7 1000) \u00d7 horas \u00d7 tarifa kWh', pFormula:'Ejemplo: 150W, 5h, $0.15/kWh: (150 \u00f7 1000) \u00d7 5 \u00d7 $0.15 = <strong style="color:var(--accent)">$0.11</strong>', hWattage:'Gu\u00eda de vataje por tipo de impresora', thPrinter:'Impresora', thWatts:'Vataje t\u00edpico', thCost5h:'Costo (5h @ $0.15/kWh)', thNote:'Notas', tdBambu:'Enfriamiento activo, eficiente', tdPrusa:'Bajo consumo', tdEnder:'Mayor con cama caliente', tdX1c:'Cerrada, multi-material', tdResin:'Consumo muy bajo', tdLarge:'Alto consumo para camas grandes', hTips:'Consejos para reducir costos el\u00e9ctricos', pTips1:'Imprime de noche si tu tarifa tiene precio valle \u2014 puede ser 30\u201350% m\u00e1s barato.', pTips2:'Agrupa piezas peque\u00f1as en una placa. Cada impresi\u00f3n tiene energ\u00eda de inicio.', pTips3:'Los recintos mantienen la temperatura, reduciendo el esfuerzo de la cama caliente.', pTips4:'Activa el modo eco si tu impresora lo soporta.', btnCalc:'Calculadora completa', navFilament:'Gu\u00eda de filamento', navCompare:'Comparar materiales', navPricing:'Gu\u00eda de precios' }
+};
+function applyEC(lang) {
+    const c = EC[lang] || EC.en;
+    document.getElementById('pageTitle').innerHTML = c.title;
+    document.getElementById('pageSub').textContent = c.sub;
+    document.getElementById('calcTitle').textContent = c.calcTitle;
+    document.getElementById('lbl-watts').textContent = c.lblWatts;
+    document.getElementById('lbl-hours').textContent = c.lblHours;
+    document.getElementById('lbl-rate').textContent = c.lblRate;
+    document.getElementById('lbl-kwh').textContent = c.lblKwh;
+    document.getElementById('lbl-cost-per-print').textContent = c.lblCostPrint;
+    document.getElementById('lbl-cost-per-hour').textContent = c.lblCostHour;
+    document.getElementById('lbl-monthly').textContent = c.lblMonthly;
+    document.getElementById('h-formula').textContent = c.hFormula;
+    document.getElementById('formula1').textContent = c.formula1;
+    document.getElementById('p-formula').innerHTML = c.pFormula;
+    document.getElementById('h-wattage').textContent = c.hWattage;
+    document.getElementById('th-printer').textContent = c.thPrinter;
+    document.getElementById('th-watts').textContent = c.thWatts;
+    document.getElementById('th-cost5h').textContent = c.thCost5h;
+    document.getElementById('th-note').textContent = c.thNote;
+    ['bambu','prusa','ender','x1c','resin','large'].forEach(k => { const el = document.getElementById('td-'+k); if(el) el.textContent = c['td'+k.charAt(0).toUpperCase()+k.slice(1)]; });
+    document.getElementById('h-tips').textContent = c.hTips;
+    ['1','2','3','4'].forEach(n => { const el = document.getElementById('p-tips'+n); if(el) el.textContent = c['pTips'+n]; });
+    document.getElementById('btn-calc').textContent = c.btnCalc;
+    document.getElementById('nav-filament').textContent = c.navFilament;
+    document.getElementById('nav-compare').textContent = c.navCompare;
+    document.getElementById('nav-pricing').textContent = c.navPricing;
+}
+window.onSharedLangChange = applyEC;
+document.addEventListener('DOMContentLoaded', () => { initSharedHeader('electricity'); applyEC(window.currentLang); calcElec(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="forge">
+<head>
+<meta charset="UTF-8">
+<title>3D Printing Material Cost Comparison – PLA vs PETG vs ABS vs Resin | PrintCalc</title>
+<meta name="description" content="Compare 3D printing materials by cost, strength, and use case. PLA vs PETG vs ABS vs Nylon vs Resin – full cost comparison with interactive calculator.">
+<meta name="keywords" content="pla vs petg cost, abs vs pla 3d printing, 3d printing material comparison, best filament for selling, resin vs fdm cost">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://printcalc.io/material-compare.html">
+<meta property="og:title" content="3D Printing Material Comparison – Cost & Properties | PrintCalc">
+<meta property="og:description" content="Compare PLA, PETG, ABS, Nylon and Resin by cost, strength, ease of printing, and best use cases.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,300&family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.guide-body { line-height: 1.75; color: var(--text-dim); font-size: 14px; }
+.guide-body h2 { font-family: var(--font-head); font-size: 1.1rem; color: var(--text); margin: 28px 0 10px; font-weight: 800; }
+.guide-body p { margin-bottom: 12px; }
+
+/* Material cards */
+.mat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin: 20px 0; }
+.mat-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; transition: border-color 0.2s; }
+.mat-card:hover { border-color: var(--border3); }
+.mat-name { font-family: var(--font-head); font-size: 1.4rem; color: var(--text); font-weight: 700; }
+.mat-price { font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin: 6px 0; }
+.mat-bar-row { margin: 8px 0; }
+.mat-bar-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; display: flex; justify-content: space-between; margin-bottom: 4px; }
+.mat-bar { height: 4px; background: var(--bg4); border-radius: 2px; overflow: hidden; }
+.mat-bar-fill { height: 100%; border-radius: 2px; background: var(--accent); transition: width 0.6s ease; }
+.mat-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 12px; }
+.mat-tag { font-size: 10px; font-family: var(--font-mono); background: var(--bg3); color: var(--text-dim); padding: 3px 8px; border-radius: 3px; }
+.mat-verdict { font-size: 11px; color: var(--accent); margin-top: 10px; font-style: italic; }
+
+/* Comparison table */
+.cmp-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 12px; }
+.cmp-table th { background: var(--bg3); color: var(--text-dim); padding: 10px 12px; text-align: center; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; border: 1px solid var(--border); }
+.cmp-table th:first-child { text-align: left; }
+.cmp-table td { padding: 10px 12px; border: 1px solid var(--border); color: var(--text); text-align: center; }
+.cmp-table td:first-child { text-align: left; font-weight: 600; color: var(--accent); }
+.cmp-table tr:hover td { background: var(--bg2); }
+.star { color: var(--accent); }
+.star-off { color: var(--bg5); }
+
+/* Interactive cost calc */
+.cost-compare { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin: 20px 0; }
+.cost-compare label { font-size: 11px; color: var(--text-dim); display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; font-family: var(--font-mono); }
+.cost-compare input { width: 100%; max-width: 200px; background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 10px 14px; border-radius: var(--radius); font-family: var(--font-mono); font-size: 14px; }
+.cc-results { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+.cc-item { background: var(--bg3); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 16px; min-width: 110px; text-align: center; }
+.cc-item .cc-mat { font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 4px; }
+.cc-item .cc-cost { font-family: var(--font-mono); font-size: 18px; color: var(--accent); font-weight: 700; }
+.cc-item.cc-best { border-color: var(--border3); background: var(--accent-pale); }
+.cc-item.cc-best .cc-cost { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<script src="shared.js"></script>
+<main class="container">
+    <div class="hero"><div class="hero-main">
+        <h1 class="hero-title" id="pageTitle">3D Material<br><span class="accent">Cost Compare</span></h1>
+        <p class="hero-sub" id="pageSub">PLA vs PETG vs ABS vs Nylon vs Resin</p>
+    </div></div>
+
+    <!-- Interactive cost compare -->
+    <div class="cost-compare">
+        <h2 class="section-label" id="calcTitle">Cost for Your Print</h2>
+        <div style="margin-top:12px">
+            <label id="lbl-grams">Filament Used (grams)</label>
+            <input type="number" id="mc-grams" value="150" min="1" step="10" oninput="calcMatCompare()">
+        </div>
+        <div class="cc-results" id="cc-results"></div>
+    </div>
+
+    <!-- Material cards -->
+    <h2 class="section-label" id="h-materials">Material Overview</h2>
+    <div class="mat-grid">
+        <div class="mat-card">
+            <div class="mat-name">PLA</div>
+            <div class="mat-price">$15–$25 / kg · $0.015–0.025/g</div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span id="lb-ease">Ease of Print</span><span>★★★★★</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:100%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span id="lb-strength">Strength</span><span>★★★☆☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:60%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span id="lb-cost">Cost Efficiency</span><span>★★★★★</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:100%"></div></div></div>
+            <div class="mat-tags"><span class="mat-tag">No enclosure</span><span class="mat-tag">Biodegradable</span><span class="mat-tag">Low warp</span></div>
+            <div class="mat-verdict" id="pla-verdict">Best for beginners and decorative prints</div>
+        </div>
+        <div class="mat-card">
+            <div class="mat-name">PETG</div>
+            <div class="mat-price">$20–$35 / kg · $0.020–0.035/g</div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Ease of Print</span><span>★★★★☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:80%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Strength</span><span>★★★★☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:80%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Cost Efficiency</span><span>★★★★☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:80%"></div></div></div>
+            <div class="mat-tags"><span class="mat-tag">Food-safe*</span><span class="mat-tag">Water-resistant</span><span class="mat-tag">Flexible</span></div>
+            <div class="mat-verdict" id="petg-verdict">Best for functional parts & food containers</div>
+        </div>
+        <div class="mat-card">
+            <div class="mat-name">ABS</div>
+            <div class="mat-price">$18–$30 / kg · $0.018–0.030/g</div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Ease of Print</span><span>★★★☆☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:60%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Strength</span><span>★★★★☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:80%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Cost Efficiency</span><span>★★★★☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:80%"></div></div></div>
+            <div class="mat-tags"><span class="mat-tag">Needs enclosure</span><span class="mat-tag">Heat-resistant</span><span class="mat-tag">Machineable</span></div>
+            <div class="mat-verdict" id="abs-verdict">Best for heat-resistant & durable parts</div>
+        </div>
+        <div class="mat-card">
+            <div class="mat-name">TPU</div>
+            <div class="mat-price">$25–$50 / kg · $0.025–0.050/g</div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Ease of Print</span><span>★★★☆☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:60%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Strength</span><span>★★★★☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:80%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Cost Efficiency</span><span>★★★☆☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:60%"></div></div></div>
+            <div class="mat-tags"><span class="mat-tag">Rubber-like</span><span class="mat-tag">Impact-resistant</span><span class="mat-tag">Slow print</span></div>
+            <div class="mat-verdict" id="tpu-verdict">Best for flexible & wearable parts</div>
+        </div>
+        <div class="mat-card">
+            <div class="mat-name">Nylon</div>
+            <div class="mat-price">$35–$60 / kg · $0.035–0.060/g</div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Ease of Print</span><span>★★☆☆☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:40%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Strength</span><span>★★★★★</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:100%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Cost Efficiency</span><span>★★☆☆☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:40%"></div></div></div>
+            <div class="mat-tags"><span class="mat-tag">Hygroscopic</span><span class="mat-tag">High strength</span><span class="mat-tag">Engineering</span></div>
+            <div class="mat-verdict" id="nylon-verdict">Best for engineering-grade functional parts</div>
+        </div>
+        <div class="mat-card">
+            <div class="mat-name">Resin</div>
+            <div class="mat-price">$25–$80 / kg · $0.025–0.080/g</div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Ease of Print</span><span>★★★★☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:80%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Detail</span><span>★★★★★</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:100%"></div></div></div>
+            <div class="mat-bar-row"><div class="mat-bar-label"><span>Cost Efficiency</span><span>★★★☆☆</span></div><div class="mat-bar"><div class="mat-bar-fill" style="width:60%"></div></div></div>
+            <div class="mat-tags"><span class="mat-tag">High detail</span><span class="mat-tag">Brittle</span><span class="mat-tag">Post-cure needed</span></div>
+            <div class="mat-verdict" id="resin-verdict">Best for miniatures & high-detail display pieces</div>
+        </div>
+    </div>
+
+    <div class="guide-body" style="margin-top:20px">
+        <h2 id="h-choose">Which Material Should You Choose?</h2>
+        <p id="p-choose1">For selling on Etsy or similar platforms, <strong style="color:var(--text)">PLA</strong> is usually the starting point — lowest cost, easiest to print, widest color selection.</p>
+        <p id="p-choose2">If you're printing functional parts (brackets, clips, housings), <strong style="color:var(--text)">PETG</strong> offers a great balance of cost and durability. It's only ~30–50% more expensive than PLA but significantly tougher.</p>
+        <p id="p-choose3">For miniatures, jewelry, or premium display items, <strong style="color:var(--text)">Resin</strong> allows you to charge significantly more — market rates for high-detail resin prints are often 3–4× FDM prices.</p>
+        <p id="p-choose4"><strong style="color:var(--text)">Nylon</strong> is the most expensive but allows you to target the engineering and industrial segment, where customers care about specs more than price.</p>
+    </div>
+
+    <div style="margin-top:36px">
+        <a href="index.html" class="calc-btn" style="display:inline-flex;text-decoration:none;max-width:300px;">
+            <span id="btn-calc">Full Cost Calculator</span> <span class="btn-icon">→</span>
+        </a>
+    </div>
+    <nav class="link-nav" style="margin-top:32px">
+        <a href="filament-cost.html" id="nav-filament">Filament Guide</a>
+        <a href="etsy-pricing.html" id="nav-etsy">Etsy Pricing</a>
+        <a href="electricity-cost.html" id="nav-elec">Electricity Cost</a>
+    </nav>
+</main>
+
+<script>
+const MATERIALS = [
+    { id: 'PLA',   pricePerKg: 20,  color: '#00e5a0' },
+    { id: 'PETG',  pricePerKg: 27,  color: '#7c6cff' },
+    { id: 'ABS',   pricePerKg: 24,  color: '#ff6b35' },
+    { id: 'TPU',   pricePerKg: 37,  color: '#ffda00' },
+    { id: 'Nylon', pricePerKg: 47,  color: '#f24464' },
+    { id: 'Resin', pricePerKg: 52,  color: '#00b4d8' }
+];
+
+function calcMatCompare() {
+    const grams = parseFloat(document.getElementById('mc-grams').value) || 150;
+    const results = MATERIALS.map(m => ({ ...m, cost: (grams / 1000) * m.pricePerKg }));
+    const minCost = Math.min(...results.map(r => r.cost));
+    const container = document.getElementById('cc-results');
+    container.innerHTML = results.map(r => `
+        <div class="cc-item ${r.cost === minCost ? 'cc-best' : ''}">
+            <div class="cc-mat">${r.id}</div>
+            <div class="cc-cost" style="color:${r.color}">$${r.cost.toFixed(2)}</div>
+        </div>`).join('');
+}
+
+const MC = {
+    en: { title:'3D Material<br><span class="accent">Cost Compare</span>', sub:'PLA vs PETG vs ABS vs Nylon vs Resin', calcTitle:'Cost for Your Print', lblGrams:'Filament Used (grams)', hMaterials:'Material Overview', lbEase:'Ease of Print', lbStrength:'Strength', lbCost:'Cost Efficiency', plaVerdict:'Best for beginners and decorative prints', petgVerdict:'Best for functional parts & food containers', absVerdict:'Best for heat-resistant & durable parts', tpuVerdict:'Best for flexible & wearable parts', nylonVerdict:'Best for engineering-grade functional parts', resinVerdict:'Best for miniatures & high-detail display pieces', hChoose:'Which Material Should You Choose?', pChoose1:'For Etsy, PLA is usually the starting point \u2014 lowest cost, easiest to print, widest color selection.', pChoose2:'For functional parts, PETG offers a great balance of cost and durability. ~30\u201350% more than PLA but significantly tougher.', pChoose3:'For miniatures or premium displays, Resin allows charging significantly more \u2014 often 3\u20134\u00d7 FDM prices.', pChoose4:'Nylon targets engineering customers who care about specs more than price.', btnCalc:'Full Cost Calculator', navFilament:'Filament Guide', navEtsy:'Etsy Pricing', navElec:'Electricity Cost' },
+    tr: { title:'3D Malzeme<br><span class="accent">Maliyet K\u0131yaslama</span>', sub:'PLA - PETG - ABS - Nylon - Resin', calcTitle:'Bask\u0131n\u0131z\u0131n Maliyeti', lblGrams:'Kullan\u0131lan Filament (gram)', hMaterials:'Malzeme Genel Bak\u0131\u015f', lbEase:'Bask\u0131 Kolayl\u0131\u011f\u0131', lbStrength:'Dayan\u0131kl\u0131l\u0131k', lbCost:'Maliyet Verimlili\u011fi', plaVerdict:'Yeni ba\u015flayanlar ve dekoratif bask\u0131lar i\u00e7in en iyi', petgVerdict:'Fonksiyonel par\u00e7alar ve g\u0131da kaplar\u0131 i\u00e7in en iyi', absVerdict:'\u0131s\u0131ya dayan\u0131kl\u0131 ve sa\u011flam par\u00e7alar i\u00e7in en iyi', tpuVerdict:'Esnek ve giyilebilir par\u00e7alar i\u00e7in en iyi', nylonVerdict:'M\u00fchendislik s\u0131n\u0131f\u0131 fonksiyonel par\u00e7alar i\u00e7in en iyi', resinVerdict:'Miny\u00eat\u00fcrler ve y\u00fcksek detayl\u0131 ser\u00fcleme par\u00e7alar\u0131 i\u00e7in en iyi', hChoose:'Hangi Malzemeyi Se\u00e7melisiniz?', pChoose1:'Etsy\u2019de sat\u0131\u015f i\u00e7in PLA genellikle en iyi ba\u015flang\u0131\u00e7 noktas\u0131d\u0131r. En d\u00fc\u015f\u00fck maliyet, en kolay bask\u0131, en geni\u015f renk se\u00e7ene\u011fi.', pChoose2:'Fonksiyonel par\u00e7alar i\u00e7in PETG, maliyet ve dayan\u0131kl\u0131l\u0131k aras\u0131nda m\u00fckemmel bir denge sunar.', pChoose3:'Miny\u00eat\u00fcrler veya premium g\u00f6rseller i\u00e7in Resin, FDM fiyatlar\u0131n\u0131n 3\u20134 kat\u0131na sat\u0131\u015f imkan\u0131 sa\u011flar.', pChoose4:'Nylon, \u00f6zellikler hakk\u0131nda fiyattan \u00f6nce d\u00fc\u015f\u00fcnen m\u00fchendislik m\u00fc\u015fterilerini hedefler.', btnCalc:'Tam Maliyet Hesaplay\u0131c\u0131', navFilament:'Filament Rehberi', navEtsy:'Etsy Fiyatlama', navElec:'Elektrik Maliyeti' },
+    de: { title:'3D Material<br><span class="accent">Kostenvergleich</span>', sub:'PLA vs PETG vs ABS vs Nylon vs Resin', calcTitle:'Kosten f\u00fcr Ihren Druck', lblGrams:'Verwendetes Filament (Gramm)', hMaterials:'Material\u00fcbersicht', lbEase:'Druckerleichtigkeit', lbStrength:'Festigkeit', lbCost:'Kosteneffizienz', plaVerdict:'Bestgeeignet f\u00fcr Einsteiger und dekorative Drucke', petgVerdict:'Bestgeeignet f\u00fcr Funktionsteile & lebensmittelkontakt', absVerdict:'Bestgeeignet f\u00fcr hitzebet\u00e4ndige Teile', tpuVerdict:'Bestgeeignet f\u00fcr flexible Teile', nylonVerdict:'Bestgeeignet f\u00fcr Ingenieurbauteile', resinVerdict:'Bestgeeignet f\u00fcr Miniaturen & hochdetaillierte Teile', hChoose:'Welches Material soll ich w\u00e4hlen?', pChoose1:'F\u00fcr Etsy-Verk\u00e4ufe ist PLA meist der Ausgangspunkt \u2014 niedrigste Kosten, einfachster Druck.', pChoose2:'F\u00fcr Funktionsteile bietet PETG ein hervorragendes Kosten-/Festigkeitsverh\u00e4ltnis.', pChoose3:'F\u00fcr Miniaturen oder Premium-St\u00fccke erlaubt Resin deutlich h\u00f6here Preise \u2014 oft 3\u20134\u00d7 FDM-Preise.', pChoose4:'Nylon spricht Ingenieurkunden an, denen Spezifikationen wichtiger sind als der Preis.', btnCalc:'Vollst\u00e4ndiger Kostenrechner', navFilament:'Filament-Leitfaden', navEtsy:'Etsy-Preise', navElec:'Stromkosten' },
+    fr: { title:'Comparaison<br><span class="accent">Co\u00fbts Mat\u00e9riaux 3D</span>', sub:'PLA vs PETG vs ABS vs Nylon vs R\u00e9sine', calcTitle:'Co\u00fbt pour votre impression', lblGrams:'Filament utilis\u00e9 (grammes)', hMaterials:'Aper\u00e7u des mat\u00e9riaux', lbEase:'Facilit\u00e9 d\u2019impression', lbStrength:'R\u00e9sistance', lbCost:'Efficacit\u00e9 co\u00fbt', plaVerdict:'Id\u00e9al pour d\u00e9butants et impressions d\u00e9coratives', petgVerdict:'Id\u00e9al pour pi\u00e8ces fonctionnelles & contact alimentaire', absVerdict:'Id\u00e9al pour pi\u00e8ces r\u00e9sistantes \u00e0 la chaleur', tpuVerdict:'Id\u00e9al pour pi\u00e8ces flexibles', nylonVerdict:'Id\u00e9al pour pi\u00e8ces techniques haute performance', resinVerdict:'Id\u00e9al pour miniatures & pi\u00e8ces tr\u00e8s d\u00e9taill\u00e9es', hChoose:'Quel mat\u00e9riau choisir ?', pChoose1:'Pour Etsy, le PLA est g\u00e9n\u00e9ralement le point de d\u00e9part \u2014 co\u00fbt le plus bas, impression la plus facile.', pChoose2:'Pour les pi\u00e8ces fonctionnelles, le PETG offre un excellent rapport co\u00fbt/solidit\u00e9.', pChoose3:'Pour les miniatures ou pi\u00e8ces premium, la r\u00e9sine permet des prix souvent 3\u20134\u00d7 sup\u00e9rieurs au FDM.', pChoose4:'Le Nylon cible les clients ing\u00e9nierie qui privil\u00e9gient les sp\u00e9cifications au prix.', btnCalc:'Calculateur complet', navFilament:'Guide filament', navEtsy:'Prix Etsy', navElec:'Co\u00fbt \u00e9lectricit\u00e9' },
+    es: { title:'Comparaci\u00f3n de<br><span class="accent">Materiales 3D</span>', sub:'PLA vs PETG vs ABS vs Nylon vs Resina', calcTitle:'Costo para tu impresi\u00f3n', lblGrams:'Filamento usado (gramos)', hMaterials:'Resumen de materiales', lbEase:'Facilidad de impresi\u00f3n', lbStrength:'Resistencia', lbCost:'Eficiencia de costo', plaVerdict:'Ideal para principiantes e impresiones decorativas', petgVerdict:'Ideal para piezas funcionales y contacto alimentario', absVerdict:'Ideal para piezas resistentes al calor', tpuVerdict:'Ideal para piezas flexibles y ponibles', nylonVerdict:'Ideal para piezas funcionales de grado ingenier\u00eda', resinVerdict:'Ideal para miniaturas y piezas de alta definici\u00f3n', hChoose:'\u00bfQu\u00e9 material debes elegir?', pChoose1:'Para Etsy, el PLA suele ser el punto de partida \u2014 menor costo, m\u00e1s f\u00e1cil de imprimir.', pChoose2:'Para piezas funcionales, el PETG ofrece un excelente equilibrio costo/durabilidad.', pChoose3:'Para miniaturas o piezas premium, la resina permite cobrar 3\u20134\u00d7 m\u00e1s que FDM.', pChoose4:'El nyl\u00f3n apunta a clientes de ingenier\u00eda que valoran las especificaciones m\u00e1s que el precio.', btnCalc:'Calculadora completa', navFilament:'Gu\u00eda de filamento', navEtsy:'Precios Etsy', navElec:'Costo electricidad' }
+};
+
+function applyMC(lang) {
+    const c = MC[lang] || MC.en;
+    document.getElementById('pageTitle').innerHTML = c.title;
+    document.getElementById('pageSub').textContent = c.sub;
+    document.getElementById('calcTitle').textContent = c.calcTitle;
+    document.getElementById('lbl-grams').textContent = c.lblGrams;
+    document.getElementById('h-materials').textContent = c.hMaterials;
+    document.querySelectorAll('#lb-ease').forEach(el => el.textContent = c.lbEase);
+    document.querySelectorAll('#lb-strength').forEach(el => el.textContent = c.lbStrength);
+    document.querySelectorAll('#lb-cost').forEach(el => el.textContent = c.lbCost);
+    document.getElementById('pla-verdict').textContent = c.plaVerdict;
+    document.getElementById('petg-verdict').textContent = c.petgVerdict;
+    document.getElementById('abs-verdict').textContent = c.absVerdict;
+    document.getElementById('tpu-verdict').textContent = c.tpuVerdict;
+    document.getElementById('nylon-verdict').textContent = c.nylonVerdict;
+    document.getElementById('resin-verdict').textContent = c.resinVerdict;
+    document.getElementById('h-choose').textContent = c.hChoose;
+    ['1','2','3','4'].forEach(n => { const el = document.getElementById('p-choose'+n); if(el) el.textContent = c['pChoose'+n]; });
+    document.getElementById('btn-calc').textContent = c.btnCalc;
+    document.getElementById('nav-filament').textContent = c.navFilament;
+    document.getElementById('nav-etsy').textContent = c.navEtsy;
+    document.getElementById('nav-elec').textContent = c.navElec;
+}
+
+window.onSharedLangChange = applyMC;
+document.addEventListener('DOMContentLoaded', () => { initSharedHeader('compare'); applyMC(window.currentLang); calcMatCompare(); });
+</script>
+</body>
+</html>
