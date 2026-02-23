@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="forge">
+<head>
+<meta charset="UTF-8">
+<title>Filament Cost Per Gram – PLA, PETG, ABS, TPU Prices | PrintCalc</title>
+<meta name="description" content="Filament cost per gram for PLA, PETG, ABS, TPU, Nylon and Resin. Average prices, formulas, and tips to cut 3D printing material costs.">
+<meta name="keywords" content="filament cost per gram, pla filament cost, petg price per gram, 3d printing material cost">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://printcalc.io/filament-cost.html">
+<meta property="og:title" content="Filament Cost Per Gram – PLA, PETG, ABS & More | PrintCalc">
+<meta property="og:description" content="See filament prices per gram for every major material type.">
+<meta property="og:type" content="article">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Filament Cost Per Gram – 3D Printing Material Guide","publisher":{"@type":"Organization","name":"PrintCalc","url":"https://printcalc.io"}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;1,300&family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+.guide-body { line-height: 1.75; color: var(--text-dim); font-size: 14px; }
+.guide-body h2 { font-family: var(--font-head); font-size: 1.1rem; color: var(--text); margin: 28px 0 10px; font-weight: 800; }
+.guide-body p { margin-bottom: 12px; }
+.formula-box { background: var(--accent-pale); border: 1px solid var(--accent); border-radius: 8px; padding: 14px 18px; font-family: var(--font-mono); font-size: 13px; color: var(--accent); margin: 14px 0; }
+.price-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+.price-table th { background: var(--bg3); color: var(--text-dim); padding: 10px 14px; text-align: left; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; border: 1px solid var(--border); }
+.price-table td { padding: 10px 14px; border: 1px solid var(--border); color: var(--text); }
+.price-table tr:hover td { background: var(--bg2); }
+.tag-accent { color: var(--accent); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<script src="shared.js"></script>
+<main class="container">
+    <div class="hero"><div class="hero-main">
+        <h1 class="hero-title" id="pageTitle">Filament Cost<br><span class="accent">Per Gram</span></h1>
+        <p class="hero-sub" id="pageSub">Material cost fundamentals</p>
+    </div></div>
+
+    <div class="guide-body">
+        <p id="intro">Understanding filament cost per gram is the foundation of accurate 3D printing pricing. Whether you're a hobbyist or running a small business, knowing your material cost helps you avoid losses and set profitable prices.</p>
+        <h2 id="h-calc">How to Calculate</h2>
+        <div class="formula-box" id="formula1">Cost per gram = Filament price per kg &divide; 1000</div>
+        <p id="ex1">Example: <span class="tag-accent">$22/kg &divide; 1000 = $0.022/g</span></p>
+        <p id="ex2">If your print uses 150 grams: <span class="tag-accent">150 &times; $0.022 = $3.30</span></p>
+        <h2 id="h-prices">Average Filament Prices</h2>
+        <table class="price-table">
+            <thead><tr><th id="th-type">Type</th><th id="th-range">Price Range (per kg)</th><th id="th-gram">Cost per gram</th><th id="th-best">Best For</th></tr></thead>
+            <tbody>
+                <tr><td>PLA</td>  <td>$15 – $25</td><td>$0.015 – $0.025</td><td id="td-pla">Prototypes, decorative</td></tr>
+                <tr><td>PETG</td> <td>$20 – $35</td><td>$0.020 – $0.035</td><td id="td-petg">Functional parts, food-safe</td></tr>
+                <tr><td>ABS</td>  <td>$18 – $30</td><td>$0.018 – $0.030</td><td id="td-abs">Durable, heat-resistant</td></tr>
+                <tr><td>TPU</td>  <td>$25 – $50</td><td>$0.025 – $0.050</td><td id="td-tpu">Flexible parts</td></tr>
+                <tr><td>ASA</td>  <td>$28 – $40</td><td>$0.028 – $0.040</td><td id="td-asa">Outdoor, UV-resistant</td></tr>
+                <tr><td>Nylon</td><td>$35 – $60</td><td>$0.035 – $0.060</td><td id="td-nylon">Engineering, high-strength</td></tr>
+                <tr><td>Resin</td><td>$25 – $80</td><td>$0.025 – $0.080</td><td id="td-resin">High-detail, miniatures</td></tr>
+            </tbody>
+        </table>
+        <h2 id="h-why">Why It Matters</h2>
+        <p id="p-why">Even a few cents difference per gram can significantly impact profitability at scale. A print using 200g of Nylon vs PLA can differ by $7 in material cost alone — that's before electricity, labor, and waste.</p>
+        <h2 id="h-tips">Tips to Reduce Material Cost</h2>
+        <p id="p-tips">Optimize infill percentage (15–20% is often enough for non-structural parts), enable adaptive layers, and use gyroid infill which provides great strength-to-weight ratio. Track spool waste from failed prints in your pricing.</p>
+    </div>
+
+    <div style="margin-top:36px">
+        <a href="index.html" class="calc-btn" style="display:inline-flex;text-decoration:none;max-width:280px;">
+            <span id="btn-calc">Open Calculator</span> <span class="btn-icon">→</span>
+        </a>
+    </div>
+    <nav class="link-nav" style="margin-top:32px">
+        <a href="print-pricing-guide.html" id="nav-pricing">Pricing Guide</a>
+        <a href="electricity-cost.html" id="nav-elec">Electricity Cost</a>
+        <a href="material-compare.html" id="nav-compare">Material Compare</a>
+    </nav>
+</main>
+<script>
+const FC = {
+    en: { title:'Filament Cost<br><span class="accent">Per Gram</span>', sub:'Material cost fundamentals', intro:'Understanding filament cost per gram is the foundation of accurate 3D printing pricing.', hCalc:'How to Calculate', formula1:'Cost per gram = Filament price per kg \u00f7 1000', ex1:'Example: <span class="tag-accent">$22/kg \u00f7 1000 = $0.022/g</span>', ex2:'If your print uses 150 grams: <span class="tag-accent">150 \u00d7 $0.022 = $3.30</span>', hPrices:'Average Filament Prices', thType:'Type', thRange:'Price Range (per kg)', thGram:'Cost per gram', thBest:'Best For', tdPla:'Prototypes, decorative', tdPetg:'Functional parts, food-safe', tdAbs:'Durable, heat-resistant', tdTpu:'Flexible parts', tdAsa:'Outdoor, UV-resistant', tdNylon:'Engineering, high-strength', tdResin:'High-detail, miniatures', hWhy:'Why It Matters', pWhy:'Even a few cents per gram can significantly impact profitability. 200g Nylon vs PLA can differ $7 in material cost alone.', hTips:'Tips to Reduce Material Cost', pTips:'Optimize infill (15\u201320% is often enough), enable adaptive layers, and use gyroid infill for great strength-to-weight ratio.', btnCalc:'Open Calculator', navPricing:'Pricing Guide', navElec:'Electricity Cost', navCompare:'Material Compare' },
+    tr: { title:'Filament Gram<br><span class="accent">Ba\u015f\u0131na Maliyet</span>', sub:'Malzeme maliyeti temelleri', intro:'Gram ba\u015f\u0131na filament maliyetini anlamak, do\u011fru 3D bask\u0131 fiyatland\u0131rmas\u0131n\u0131n temelidir.', hCalc:'Nas\u0131l Hesaplan\u0131r', formula1:'Gram ba\u015f\u0131na maliyet = Filament kg fiyat\u0131 \u00f7 1000', ex1:'\u00d6rnek: <span class="tag-accent">\u20ba550/kg \u00f7 1000 = \u20ba0,55/g</span>', ex2:'150 gram i\u00e7in: <span class="tag-accent">150 \u00d7 \u20ba0,55 = \u20ba82,50</span>', hPrices:'Ortalama Filament Fiyatlar\u0131', thType:'T\u00fcr', thRange:'Fiyat Aral\u0131\u011f\u0131 (kg ba\u015f\u0131na)', thGram:'Gram ba\u015f\u0131na maliyet', thBest:'En Uygun Kullan\u0131m', tdPla:'Prototipler, dekoratif', tdPetg:'Fonksiyonel par\u00e7alar, g\u0131da g\u00fcvenli', tdAbs:'Dayan\u0131kl\u0131, \u0131s\u0131ya diren\u00e7li', tdTpu:'Esnek par\u00e7alar', tdAsa:'D\u0131\u015f mekan, UV diren\u00e7li', tdNylon:'M\u00fchendislik, y\u00fcksek mukavemet', tdResin:'Y\u00fcksek detay, miny\u00eat\u00fcrler', hWhy:'Neden \u00d6nemli?', pWhy:'Gram ba\u015f\u0131na birka\u00e7 sentlik fark bile \u00f6l\u00e7ekte karl\u0131l\u0131\u011f\u0131 \u00f6nemli \u00f6l\u00e7\u00fcde etkileyebilir.', hTips:'Malzeme Maliyetini D\u00fc\u015f\u00fcrme \u0130pu\u00e7lar\u0131', pTips:'Dolgu y\u00fczdesini optimize edin (%15\u201320), adaptif katmanlar\u0131 etkinle\u015ftirin ve gyroid dolgu kullan\u0131n.', btnCalc:'Hesaplay\u0131c\u0131y\u0131 A\u00e7', navPricing:'Fiyat Rehberi', navElec:'Elektrik Maliyeti', navCompare:'Malzeme K\u0131yasla' },
+    de: { title:'Filamentkosten<br><span class="accent">Pro Gramm</span>', sub:'Materialkosten-Grundlagen', intro:'Die Filamentkosten pro Gramm zu verstehen ist die Grundlage f\u00fcr genaue 3D-Druckpreise.', hCalc:'Berechnung', formula1:'Kosten pro Gramm = Filamentpreis pro kg \u00f7 1000', ex1:'Beispiel: <span class="tag-accent">22\u20ac/kg \u00f7 1000 = 0,022\u20ac/g</span>', ex2:'Bei 150 Gramm: <span class="tag-accent">150 \u00d7 0,022\u20ac = 3,30\u20ac</span>', hPrices:'Durchschnittliche Filamentpreise', thType:'Typ', thRange:'Preisbereich (pro kg)', thGram:'Kosten pro Gramm', thBest:'Beste Verwendung', tdPla:'Prototypen, Deko', tdPetg:'Funktionsteile, lebensmittelecht', tdAbs:'Langlebig, hitzebet\u00e4ndig', tdTpu:'Flexible Teile', tdAsa:'Outdoor, UV-best\u00e4ndig', tdNylon:'Ingenieurtechnik, hochfest', tdResin:'Hochdetailliert, Miniaturen', hWhy:'Warum es wichtig ist', pWhy:'Selbst wenige Cent pro Gramm k\u00f6nnen die Rentabilit\u00e4t erheblich beeinflussen.', hTips:'Materialkosten reduzieren', pTips:'F\u00fcllgrad optimieren (15\u201320% reicht oft), adaptive Schichten und Gyroid-F\u00fcllung verwenden.', btnCalc:'Rechner \u00f6ffnen', navPricing:'Preisgestaltung', navElec:'Stromkosten', navCompare:'Material Vergleich' },
+    fr: { title:'Co\u00fbt Filament<br><span class="accent">Par Gramme</span>', sub:'Fondamentaux du co\u00fbt mati\u00e8re', intro:'Comprendre le co\u00fbt du filament par gramme est la base d\u2019une tarification 3D pr\u00e9cise.', hCalc:'Comment calculer', formula1:'Co\u00fbt par gramme = Prix filament par kg \u00f7 1000', ex1:'Exemple : <span class="tag-accent">22\u20ac/kg \u00f7 1000 = 0,022\u20ac/g</span>', ex2:'Pour 150 grammes : <span class="tag-accent">150 \u00d7 0,022\u20ac = 3,30\u20ac</span>', hPrices:'Prix moyens filaments', thType:'Type', thRange:'Fourchette (par kg)', thGram:'Co\u00fbt par gramme', thBest:'Meilleure utilisation', tdPla:'Prototypes, d\u00e9coratif', tdPetg:'Pi\u00e8ces fonctionnelles, alimentaire', tdAbs:'Durable, r\u00e9sistant chaleur', tdTpu:'Pi\u00e8ces flexibles', tdAsa:'Ext\u00e9rieur, r\u00e9sistant UV', tdNylon:'Ing\u00e9nierie, haute r\u00e9sistance', tdResin:'Haute pr\u00e9cision, miniatures', hWhy:'Pourquoi c\u2019est important', pWhy:'Quelques centimes par gramme peuvent significativement impacter la rentabilit\u00e9 \u00e0 grande \u00e9chelle.', hTips:'R\u00e9duire le co\u00fbt mati\u00e8re', pTips:'Optimisez le remplissage (15\u201320% suffit), activez les couches adaptatives et utilisez le remplissage gyr\u00f6\u00efde.', btnCalc:'Ouvrir la calculatrice', navPricing:'Guide tarifs', navElec:'Co\u00fbt \u00e9lectricit\u00e9', navCompare:'Comparer mat\u00e9riaux' },
+    es: { title:'Costo de Filamento<br><span class="accent">Por Gramo</span>', sub:'Fundamentos del costo de material', intro:'Entender el costo del filamento por gramo es la base de una fijaci\u00f3n de precios precisa.', hCalc:'C\u00f3mo calcular', formula1:'Costo por gramo = Precio filamento por kg \u00f7 1000', ex1:'Ejemplo: <span class="tag-accent">$22/kg \u00f7 1000 = $0.022/g</span>', ex2:'Para 150 gramos: <span class="tag-accent">150 \u00d7 $0.022 = $3.30</span>', hPrices:'Precios promedio de filamento', thType:'Tipo', thRange:'Rango de precio (por kg)', thGram:'Costo por gramo', thBest:'Mejor para', tdPla:'Prototipos, decorativo', tdPetg:'Piezas funcionales, apto alimentos', tdAbs:'Duradero, resistente al calor', tdTpu:'Piezas flexibles', tdAsa:'Exterior, resistente UV', tdNylon:'Ingenier\u00eda, alta resistencia', tdResin:'Alta precisi\u00f3n, miniaturas', hWhy:'Por qu\u00e9 importa', pWhy:'Incluso unos pocos centavos por gramo pueden impactar la rentabilidad a escala.', hTips:'Consejos para reducir costos', pTips:'Optimiza el porcentaje de relleno (15\u201320% suele ser suficiente) y usa relleno giro\u00efde.', btnCalc:'Abrir Calculadora', navPricing:'Gu\u00eda de precios', navElec:'Costo electricidad', navCompare:'Comparar materiales' }
+};
+function applyFC(lang) {
+    const c = FC[lang] || FC.en;
+    document.getElementById('pageTitle').innerHTML = c.title;
+    document.getElementById('pageSub').textContent = c.sub;
+    document.getElementById('intro').textContent = c.intro;
+    document.getElementById('h-calc').textContent = c.hCalc;
+    document.getElementById('formula1').textContent = c.formula1;
+    document.getElementById('ex1').innerHTML = c.ex1;
+    document.getElementById('ex2').innerHTML = c.ex2;
+    document.getElementById('h-prices').textContent = c.hPrices;
+    document.getElementById('th-type').textContent = c.thType;
+    document.getElementById('th-range').textContent = c.thRange;
+    document.getElementById('th-gram').textContent = c.thGram;
+    document.getElementById('th-best').textContent = c.thBest;
+    ['pla','petg','abs','tpu','asa','nylon','resin'].forEach(m => { const el = document.getElementById('td-'+m); if(el) el.textContent = c['td'+m.charAt(0).toUpperCase()+m.slice(1)]; });
+    document.getElementById('h-why').textContent = c.hWhy;
+    document.getElementById('p-why').textContent = c.pWhy;
+    document.getElementById('h-tips').textContent = c.hTips;
+    document.getElementById('p-tips').textContent = c.pTips;
+    document.getElementById('btn-calc').textContent = c.btnCalc;
+    document.getElementById('nav-pricing').textContent = c.navPricing;
+    document.getElementById('nav-elec').textContent = c.navElec;
+    document.getElementById('nav-compare').textContent = c.navCompare;
+}
+window.onSharedLangChange = applyFC;
+document.addEventListener('DOMContentLoaded', () => { initSharedHeader('filament'); applyFC(window.currentLang); });
+</script>
+</body>
+</html>
